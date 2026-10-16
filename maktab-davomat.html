@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maktab davomat jurnali</title>
+<style>
+:root{--bg:#f2f4ef;--ink:#1c2b2a;--mut:#5d6b69;--line:#d6dcd5;--card:#fff;--g:#1f6b57;--gd:#154c3e;--gl:#e4f1ec;--y:#f0c33c;--r:#b3382c;--rl:#fbe9e6;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+h1,h2,h3{margin:0;line-height:1.2}
+/* login */
+.login{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.lside{background:var(--gd);color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:flex-end;
+ background-image:repeating-linear-gradient(0deg,transparent 0 35px,rgba(255,255,255,.09) 35px 36px)}
+.lside h1{font-size:clamp(32px,4.5vw,56px);font-weight:800;letter-spacing:-.02em;max-width:11ch}
+.lside p{max-width:34ch;opacity:.85;margin:16px 0 0}
+.lmain{display:flex;align-items:center;justify-content:center;padding:32px}
+.lform{width:100%;max-width:360px}
+.lform h2{font-size:26px;margin-bottom:6px}
+.lform .sub{color:var(--mut);margin:0 0 22px}
+label.f{display:block;font-weight:600;margin:14px 0 6px}
+input[type=text],input[type=password],input[type=date],select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:8px;background:#fff}
+input:focus,select:focus,textarea:focus{border-color:var(--g)}
+.btn{display:inline-block;border:0;border-radius:8px;background:var(--g);color:#fff;font-weight:700;padding:12px 20px;cursor:pointer}
+.btn:hover{background:var(--gd)}
+.btn.full{width:100%;margin-top:20px}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.ghost:hover{background:#fff}
+.btn.sm{padding:6px 12px;font-size:14px}
+.btn.danger{background:var(--r)}
+.err{background:var(--rl);color:var(--r);padding:10px 12px;border-radius:8px;margin-top:14px;font-weight:600}
+/* shell */
+header.top{background:var(--gd);color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header.top b{font-size:18px}
+header.top span{opacity:.85;margin-right:12px}
+nav.tabs{display:flex;gap:4px;padding:0 24px;background:#fff;border-bottom:1.5px solid var(--line);overflow-x:auto}
+nav.tabs button{background:none;border:0;border-bottom:4px solid transparent;padding:14px 16px;font-weight:600;color:var(--mut);cursor:pointer;white-space:nowrap}
+nav.tabs button.on{color:var(--g);border-bottom-color:var(--g)}
+main{max-width:920px;margin:0 auto;padding:24px}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:20px;margin-bottom:18px}
+.card h2{font-size:20px;margin-bottom:4px}
+.hint{color:var(--mut);margin:0 0 14px;font-size:15px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.row>div{flex:1;min-width:150px}
+.empty{color:var(--mut);padding:24px;text-align:center;border:1.5px dashed var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:14px;color:var(--mut);font-weight:600}
+.tag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:14px;font-weight:600}
+.tag.ok{background:var(--gl);color:var(--gd)}
+.tag.no{background:var(--rl);color:var(--r)}
+.tag.sb{background:#fdf3d0;color:#7a5b00}
+.scroll{overflow-x:auto}
+/* attendance */
+.st{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.st:last-child{border-bottom:0}
+.st .nm{font-weight:600;min-width:140px}
+.seg{display:flex;gap:6px}
+.seg label{cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;padding:7px 16px;border:1.5px solid var(--line);border-radius:8px;font-weight:600;color:var(--mut);background:#fff}
+.seg input:focus-visible+span{outline:3px solid var(--y)}
+.seg .sb input:checked+span{background:var(--g);border-color:var(--g);color:#fff}
+.seg .sy input:checked+span{background:var(--r);border-color:var(--r);color:#fff}
+.seg .ss input:checked+span{background:var(--y);border-color:var(--y);color:var(--ink)}
+.les{display:grid;grid-template-columns:70px 1fr 120px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.les .rs{grid-column:2/4;display:none}
+.les.no .rs{display:block}
+.les.no select{border-color:var(--r);color:var(--r);font-weight:600}
+/* reports */
+details.rep{background:#fff;border:1.5px solid var(--line);border-radius:10px;margin-bottom:10px}
+details.rep summary{padding:14px 16px;cursor:pointer;display:flex;gap:10px 16px;flex-wrap:wrap;align-items:center}
+details.rep summary b{min-width:120px}
+details.rep[open] summary{border-bottom:1px solid var(--line)}
+.rbody{padding:14px 16px}
+.rbody h3{font-size:15px;color:var(--mut);margin:12px 0 6px}
+.rbody h3:first-child{margin-top:0}
+.pill{display:inline-block;margin:0 6px 6px 0;padding:3px 10px;border-radius:99px;background:var(--rl);color:var(--r);font-weight:600;font-size:14px}
+.pill.s{background:#fdf3d0;color:#7a5b00}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px}
+.stat{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:14px 16px}
+.stat b{display:block;font-size:30px;line-height:1.1}
+.stat small{color:var(--mut)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:8px;font-weight:600;z-index:9}
+@media(max-width:760px){.login{grid-template-columns:1fr}.lside{padding:32px 24px;min-height:200px}main{padding:16px}.les{grid-template-columns:60px 1fr 110px}}
+@media(prefers-reduced-motion:no-preference){.toast{animation:in .2s}@keyframes in{from{opacity:0;transform:translate(-50%,10px)}}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const fmt=s=>s.split('-').reverse().join('.');
+const KEY='maktab_davomat_v1';
+let db=load(), me=null, tab='', fd='', ft='', attDate=iso(new Date());
+try{me=JSON.parse(sessionStorage.getItem('me'))}catch(e){}
+if(me)tab=me.role==='admin'?'today':'att';
+
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{teachers:[],students:{},reports:[]}}catch(e){return{teachers:[],students:{},reports:[]}}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){alert("Ma'lumotni saqlab bo'lmadi. Brauzer xotirasi yopiq bo'lishi mumkin.")}}
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2200)}
+
+/* ---------- Kirish ---------- */
+function loginView(err){
+ $('#app').innerHTML=`<div class="login">
+ <div class="lside"><h1>Maktab davomat jurnali</h1><p>Sinf rahbarlari davomatni topshiradi, zamdirektor hammasini bir joyda ko'radi.</p></div>
+ <div class="lmain"><div class="lform">
+  <h2>Tizimga kirish</h2><p class="sub">Login va parolingizni kiriting</p>
+  <label class="f" for="lu">Login</label><input type="text" id="lu" autocomplete="username" autofocus>
+  <label class="f" for="lp">Parol</label><input type="password" id="lp" autocomplete="current-password">
+  ${err?`<div class="err">${err}</div>`:''}
+  <button class="btn full" onclick="doLogin()">Kirish</button>
+ </div></div></div>`;
+ $('#lp').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+ $('#lu').addEventListener('keydown',e=>{if(e.key==='Enter')$('#lp').focus()});
+}
+function doLogin(){
+ const u=$('#lu').value.trim(),p=$('#lp').value;
+ if(u.toUpperCase()==='ADMIN'&&p==='7777'){me={role:'admin',name:'Zamdirektor'};tab='today'}
+ else{
+  const t=db.teachers.find(t=>t.login.toLowerCase()===u.toLowerCase()&&t.pass===p);
+  if(!t)return loginView("Login yoki parol noto'g'ri");
+  me={role:'teacher',id:t.id,name:t.name,cls:t.cls};tab='att';
+ }
+ try{sessionStorage.setItem('me',JSON.stringify(me))}catch(e){}
+ attDate=iso(new Date());render();
+}
+function logout(){me=null;try{sessionStorage.removeItem('me')}catch(e){}render()}
+
+/* ---------- Umumiy ---------- */
+function render(){
+ if(!me)return loginView();
+ const tabs=me.role==='admin'?[['today','Bugun'],['reports','Hisobotlar'],['teachers','Ustozlar']]:[['att','Davomat topshirish'],['students',"O'quvchilar"],['mine','Mening hisobotlarim']];
+ $('#app').innerHTML=`<header class="top"><b>Maktab davomat jurnali</b><div><span>${esc(me.name)}${me.cls?' · '+esc(me.cls):''}</span><button class="btn ghost sm" style="color:#fff;border-color:rgba(255,255,255,.5)" onclick="logout()">Chiqish</button></div></header>
+ <nav class="tabs">${tabs.map(t=>`<button class="${tab===t[0]?'on':''}" onclick="tab='${t[0]}';render()">${t[1]}</button>`).join('')}</nav>
+ <main>${views[tab]()}</main>`;
+}
+const cnt=r=>({b:r.att.filter(a=>a.s==='b').length,y:r.att.filter(a=>a.s==='y').length,s:r.att.filter(a=>a.s==='s').length,held:r.lessons.filter(l=>l.held).length,all:r.lessons.length});
+function repCard(r,showT){
+ const c=cnt(r),miss=r.att.filter(a=>a.s!=='b'),nh=r.lessons.filter(l=>!l.held);
+ return `<details class="rep"><summary><b>${fmt(r.date)}</b>${showT?`<span>${esc(r.tn)} · ${esc(r.cls)}</span>`:''}
+ <span class="tag ok">Keldi ${c.b}</span><span class="tag ${c.y?'no':'ok'}">Kelmadi ${c.y}</span>${c.s?`<span class="tag sb">Sababli ${c.s}</span>`:''}
+ <span class="tag ${nh.length?'no':'ok'}">Darslar ${c.held}/${c.all}</span></summary><div class="rbody">
+ <h3>Kelmaganlar</h3>${miss.length?miss.map(a=>`<span class="pill ${a.s==='s'?'s':''}">${esc(a.n)}${a.s==='s'?' (sababli)':''}</span>`).join(''):'<span class="tag ok">Hamma keldi</span>'}
+ <h3>Darslar</h3>${r.lessons.length?`<div class="scroll"><table><tr><th>Dars</th><th>Fan</th><th>Holati</th><th>Sababi</th></tr>${r.lessons.map((l,i)=>`<tr><td>${i+1}</td><td>${esc(l.sub||'—')}</td><td><span class="tag ${l.held?'ok':'no'}">${l.held?"O'tildi":"O'tilmadi"}</span></td><td>${esc(l.reason||'')}</td></tr>`).join('')}</table></div>`:'<span class="hint">Dars kiritilmagan</span>'}
+ </div></details>`;
+}
+
+/* ---------- Zamdirektor ---------- */
+const views={
+ today(){
+  const d=iso(new Date()),rs=db.reports.filter(r=>r.date===d);
+  const sent=db.teachers.filter(t=>rs.some(r=>r.tid===t.id)).length;
+  const tot=rs.reduce((a,r)=>{const c=cnt(r);a.b+=c.b;a.y+=c.y;a.nh+=c.all-c.held;return a},{b:0,y:0,nh:0});
+  return `<h2 style="margin-bottom:14px">Bugun, ${fmt(d)}</h2>
+  <div class="stats"><div class="stat"><b>${sent}/${db.teachers.length}</b><small>Hisobot topshirdi</small></div><div class="stat"><b>${tot.b}</b><small>Kelgan o'quvchi</small></div><div class="stat"><b>${tot.y}</b><small>Kelmagan o'quvchi</small></div><div class="stat"><b>${tot.nh}</b><small>O'tilmagan dars</small></div></div>
+  ${db.teachers.length?`<div class="card scroll"><table><tr><th>Ustoz</th><th>Sinf</th><th>Holati</th><th>Davomat</th><th>Darslar</th></tr>${db.teachers.map(t=>{const r=rs.find(r=>r.tid===t.id),c=r&&cnt(r);return `<tr><td>${esc(t.name)}</td><td>${esc(t.cls)}</td><td><span class="tag ${r?'ok':'no'}">${r?'Topshirdi':'Topshirmadi'}</span></td><td>${r?`${c.b} keldi, ${c.y+c.s} kelmadi`:'—'}</td><td>${r?`${c.held}/${c.all}`:'—'}</td></tr>`}).join('')}</table></div>`
+  :`<div class="empty">Hali ustoz qo'shilmagan. "Ustozlar" bo'limidan ustoz qo'shing.</div>`}`;
+ },
+ reports(){
+  let rs=db.reports.slice().sort((a,b)=>b.date.localeCompare(a.date)||a.tn.localeCompare(b.tn));
+  if(fd)rs=rs.filter(r=>r.date===fd);if(ft)rs=rs.filter(r=>r.tid===ft);
+  return `<div class="card"><div class="row"><div><label class="f" for="fd" style="margin-top:0">Sana</label><input type="date" id="fd" value="${fd}" onchange="fd=this.value;render()"></div>
+  <div><label class="f" for="ft" style="margin-top:0">Ustoz</label><select id="ft" onchange="ft=this.value;render()"><option value="">Hammasi</option>${db.teachers.map(t=>`<option value="${t.id}" ${ft===t.id?'selected':''}>${esc(t.name)} (${esc(t.cls)})</option>`).join('')}</select></div>
+  <div style="flex:0"><button class="btn ghost" onclick="fd='';ft='';render()">Tozalash</button></div></div></div>
+  ${rs.length?rs.map(r=>repCard(r,true)).join(''):`<div class="empty">Hisobot topilmadi</div>`}`;
+ },
+ teachers(){
+  return `<div class="card"><h2>Yangi ustoz qo'shish</h2><p class="hint">Ustoz shu login va parol bilan kiradi.</p>
+  <div class="row"><div><label class="f" for="tn">Ism familiya</label><input type="text" id="tn"></div><div><label class="f" for="tc">Sinf (masalan: 7-A)</label><input type="text" id="tc"></div></div>
+  <div class="row"><div><label class="f" for="tl">Login</label><input type="text" id="tl" autocomplete="off"></div><div><label class="f" for="tp">Parol</label><input type="text" id="tp" autocomplete="off"></div></div>
+  <div id="terr"></div><button class="btn" style="margin-top:18px" onclick="addTeacher()">Ustoz qo'shish</button></div>
+  <div class="card scroll"><h2>Ustozlar (${db.teachers.length})</h2>${db.teachers.length?`<table><tr><th>Ism</th><th>Sinf</th><th>Login</th><th>Parol</th><th></th></tr>${db.teachers.map(t=>`<tr><td>${esc(t.name)}</td><td>${esc(t.cls)}</td><td>${esc(t.login)}</td><td>${esc(t.pass)}</td><td><button class="btn danger sm" onclick="delTeacher('${t.id}')">O'chirish</button></td></tr>`).join('')}</table>`:`<p class="hint">Hali ustoz yo'q</p>`}</div>`;
+ },
+/* ---------- Ustoz ---------- */
+ att(){
+  const sts=db.students[me.id]||[],ex=db.reports.find(r=>r.tid===me.id&&r.date===attDate);
+  const ls=ex?ex.lessons:Array.from({length:6},()=>({sub:'',held:true,reason:''}));
+  const stat=n=>{const a=ex&&ex.att.find(x=>x.n===n);return a?a.s:'b'};
+  const seg=(i,v)=>`<div class="seg">${[['b','Bor','sb'],['y',"Yo'q",'sy'],['s','Sababli','ss']].map(o=>`<label class="${o[2]}"><input type="radio" name="st${i}" value="${o[0]}" ${v===o[0]?'checked':''}><span>${o[1]}</span></label>`).join('')}</div>`;
+  return `<div class="card"><div class="row"><div><label class="f" for="ad" style="margin-top:0">Sana</label><input type="date" id="ad" max="${iso(new Date())}" value="${attDate}" onchange="attDate=this.value||iso(new Date());render()"></div></div>
+  ${ex?`<p class="hint" style="margin:12px 0 0">Bu sana uchun hisobot topshirilgan. Saqlasangiz yangilanadi.</p>`:''}</div>
+  <div class="card"><h2>O'quvchilar davomati</h2>
+  ${sts.length?`<p class="hint">Sinf: ${esc(me.cls)} · ${sts.length} ta o'quvchi <button class="btn ghost sm" onclick="allHere()">Hammasi bor</button></p>
+  ${sts.map((n,i)=>`<div class="st"><span class="nm">${i+1}. ${esc(n)}</span>${seg(i,stat(n))}</div>`).join('')}`
+  :`<div class="empty">Avval "O'quvchilar" bo'limida sinf ro'yxatini kiriting.</div>`}</div>
+  <div class="card"><h2>Darslar</h2><p class="hint">Qaysi dars o'tildi, qaysi biri o'tilmadi. O'tilmagan bo'lsa sababini yozing.</p>
+  <div id="lessons">${ls.map((l,i)=>lesRow(l,i)).join('')}</div>
+  <button class="btn ghost sm" style="margin-top:12px" onclick="addLes()">+ Dars qo'shish</button></div>
+  <button class="btn" onclick="saveRep()">Hisobotni topshirish</button>`;
+ },
+ students(){
+  return `<div class="card"><h2>Sinf ro'yxati</h2><p class="hint">Har bir o'quvchi alohida qatorga yoziladi.</p>
+  <textarea id="sl" rows="14" placeholder="Aliyev Vali&#10;Karimova Madina">${esc((db.students[me.id]||[]).join('\n'))}</textarea>
+  <button class="btn" style="margin-top:14px" onclick="saveStudents()">Ro'yxatni saqlash</button></div>`;
+ },
+ mine(){
+  const rs=db.reports.filter(r=>r.tid===me.id).sort((a,b)=>b.date.localeCompare(a.date));
+  return rs.length?rs.map(r=>repCard(r,false)).join(''):`<div class="empty">Siz hali hisobot topshirmagansiz</div>`;
+ }
+};
+
+/* ---------- Amallar ---------- */
+function addTeacher(){
+ const v=id=>$(id).value.trim(),n=v('#tn'),c=v('#tc'),l=v('#tl'),p=v('#tp');
+ const e=m=>{$('#terr').innerHTML=`<div class="err">${m}</div>`};
+ if(!n||!c||!l||!p)return e("Hamma maydonni to'ldiring");
+ if(l.toUpperCase()==='ADMIN'||db.teachers.some(t=>t.login.toLowerCase()===l.toLowerCase()))return e("Bu login band, boshqasini tanlang");
+ db.teachers.push({id:'t'+Date.now(),name:n,cls:c,login:l,pass:p});save();toast("Ustoz qo'shildi");render();
+}
+function delTeacher(id){
+ const t=db.teachers.find(t=>t.id===id);
+ if(!confirm(`${t.name} o'chirilsinmi? Uning hisobotlari saqlanib qoladi.`))return;
+ db.teachers=db.teachers.filter(t=>t.id!==id);delete db.students[id];save();render();
+}
+function lesRow(l,i){
+ return `<div class="les ${l.held?'':'no'}"><b>${i+1}-dars</b><input type="text" class="sub" placeholder="Fan nomi" value="${esc(l.sub||'')}">
+ <select class="held" onchange="this.parentNode.classList.toggle('no',this.value==='0')"><option value="1" ${l.held?'selected':''}>O'tildi</option><option value="0" ${l.held?'':'selected'}>O'tilmadi</option></select>
+ <input type="text" class="rs" placeholder="Sababi (masalan: ustoz kasal)" value="${esc(l.reason||'')}"></div>`;
+}
+function addLes(){const n=document.querySelectorAll('.les').length;$('#lessons').insertAdjacentHTML('beforeend',lesRow({sub:'',held:true},n))}
+function allHere(){document.querySelectorAll('.seg label.sb input').forEach(i=>i.checked=true)}
+function saveStudents(){
+ const names=[...new Set($('#sl').value.split('\n').map(s=>s.trim()).filter(Boolean))];
+ db.students[me.id]=names;save();toast(`${names.length} ta o'quvchi saqlandi`);
+}
+function saveRep(){
+ const sts=db.students[me.id]||[];
+ if(!sts.length)return alert("Avval o'quvchilar ro'yxatini kiriting");
+ const att=sts.map((n,i)=>({n,s:(document.querySelector(`input[name=st${i}]:checked`)||{}).value||'b'}));
+ const lessons=[...document.querySelectorAll('.les')].map(r=>({sub:r.querySelector('.sub').value.trim(),held:r.querySelector('.held').value==='1',reason:r.querySelector('.rs').value.trim()})).filter(l=>l.sub||!l.held);
+ const bad=lessons.find(l=>!l.held&&!l.reason);
+ if(bad&&!confirm("Ba'zi o'tilmagan darslarning sababi yozilmagan. Baribir topshirasizmi?"))return;
+ db.reports=db.reports.filter(r=>!(r.tid===me.id&&r.date===attDate));
+ db.reports.push({id:'r'+Date.now(),tid:me.id,tn:me.name,cls:me.cls,date:attDate,att,lessons,at:Date.now()});
+ save();toast('Hisobot topshirildi');render();
+}
+render();
+</script>
+</body>
+</html>
